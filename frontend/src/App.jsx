@@ -230,7 +230,7 @@ function App() {
       <main className='chat'>
         <header className='chatHeader'>
           <div>
-            <div className='modelLabel'>Gemini 2.5 Flash Lite</div>
+            <div className='modelLabel'>Gemini 3.5 Flash</div>
             <h1>Programming Assistant</h1>
           </div>
 
