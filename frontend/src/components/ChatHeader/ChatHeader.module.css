@@ -1,0 +1,133 @@
+.header {
+  align-items: center;
+  color: var(--text-secondary);
+  display: grid;
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 600;
+  grid-template-columns: minmax(120px, 1fr) minmax(0, 2fr) minmax(120px, 1fr);
+  gap: 12px;
+  padding: 14px 20px;
+  position: relative;
+}
+
+.left,
+.right {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  position: relative;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.title {
+  color: var(--text-primary);
+  min-width: 0;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelBtn,
+.iconBtn,
+.avatar,
+.menuItem {
+  border: 0;
+  cursor: pointer;
+}
+
+.modelBtn {
+  align-items: center;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  display: inline-flex;
+  gap: 6px;
+  height: 36px;
+  max-width: 180px;
+  min-width: 0;
+  padding: 0 10px;
+}
+
+.modelBtn:hover,
+.iconBtn:hover,
+.avatar:hover,
+.menuItem:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.iconBtn {
+  align-items: center;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
+  width: 36px;
+}
+
+.avatar {
+  align-items: center;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  color: white;
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 700;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
+.menu {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  left: 0;
+  min-width: 180px;
+  padding: 6px;
+  position: absolute;
+  top: 42px;
+  z-index: 20;
+}
+
+.userMenu {
+  left: auto;
+  right: 0;
+}
+
+.menuItem {
+  align-items: center;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--text-primary);
+  display: flex;
+  gap: 8px;
+  height: 34px;
+  justify-content: flex-start;
+  padding: 0 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .title {
+    display: none;
+  }
+}
