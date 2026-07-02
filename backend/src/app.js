@@ -19,18 +19,18 @@ export function createApp() {
   // Middleware runs before routes. CORS lets the Vite frontend talk to this API.
   app.use(corsMiddleware);
 
+  // These parsers turn JSON request bodies into req.body.
+  // Without express.json(), POST /api/chat/conversations could not read
+  // { "question": "..." } from the frontend.
+  app.use(express.json({ limit: env.requestBodyLimit }));
+  app.use(express.urlencoded({ extended: true, limit: env.requestBodyLimit }));
+
   // These headers are simple browser safety defaults.
   app.use((req, res, next) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Referrer-Policy", "no-referrer");
     next();
   });
-
-  // These parsers turn JSON request bodies into req.body.
-  // Without express.json(), POST /api/chat/conversations could not read
-  // { "question": "..." } from the frontend.
-  app.use(express.json({ limit: env.requestBodyLimit }));
-  app.use(express.urlencoded({ extended: true, limit: env.requestBodyLimit }));
 
   // Root route is a quick manual check in the browser.
   app.get("/", (req, res) => {

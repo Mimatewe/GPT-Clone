@@ -35,7 +35,12 @@ async function startServer() {
   // app.listen(...) connects that app to a real network port.
   const app = createApp();
   const server = app.listen(env.port, () => {
+    console.log('--- Server Started ---');
+    console.log(`Port: ${env.port}`);
+    console.log(`NODE_ENV: ${env.nodeEnv}`);
+    console.log(`Allowed CORS Origins: ${env.corsOrigins.join(', ') || '*'}`);
     console.log(`Server is running on http://localhost:${env.port}`);
+    console.log('----------------------');
   });
 
   // If the port is busy or the server cannot start, this reports the failure.

@@ -1,36 +1,37 @@
+import cors from "cors";
 import env from "../config/env.js";
 
 // Teacher note:
-// Browsers block requests between different origins unless the API allows them.
-// Vite might run on localhost:5173, while Express runs on localhost:3777.
-// CORS headers tell the browser that this frontend is allowed to call this API.
-export default function corsMiddleware(req, res, next) {
-  const requestOrigin = req.headers.origin;
-  const allowsAnyOrigin = env.corsOrigins.includes("*");
-  const allowedOrigin = allowsAnyOrigin
-    ? requestOrigin || "*"
-    : env.corsOrigins.find((origin) => origin === requestOrigin);
+// The cors package handles the complex parts of the CORS protocol for us,
+// including preflight OPTIONS requests and allowing specific origins.
+const corsOptions = {
+  origin: (origin, callback) => {
+    // In production, we want to be strict about which origins can call our API.
+    // In development, we allow localhost and any other origins specified in .env.
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://chat-gp.netlify.app",
+      ...env.corsOrigins,
+    ];
 
-  if (allowedOrigin) {
-    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-  }
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
 
-  res.setHeader("Vary", "Origin");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
+    if (allowedOrigins.includes("*") || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
 
-  if (req.method === "OPTIONS") {
-    // Browsers send OPTIONS preflight requests before some real requests.
-    // A 204 response means "allowed, no body needed".
-    return res.sendStatus(204);
-  }
+    return callback(new Error("Not allowed by CORS"));
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  credentials: true,
+  optionsSuccessStatus: 204, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
-  return next();
-}
+const corsMiddleware = cors(corsOptions);
+
+export default corsMiddleware;
