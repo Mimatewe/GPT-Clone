@@ -13,6 +13,7 @@ const db = mysql.createPool({
   waitForConnections: true,
   connectionLimit: env.db.connectionLimit,
   enableKeepAlive: true,
+  ssl: env.db.ssl ? { rejectUnauthorized: true } : undefined,
 });
 
 export default db;

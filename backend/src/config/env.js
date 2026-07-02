@@ -77,6 +77,7 @@ const env = {
       min: 1,
       max: 50,
     }),
+    ssl: (process.env.DB_SSL || "true").toLowerCase() === "true",
   },
 
   gemini: {

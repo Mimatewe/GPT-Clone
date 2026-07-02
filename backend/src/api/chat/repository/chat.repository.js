@@ -21,7 +21,7 @@ function mapConversation(row) {
 export async function listRecentConversations(limit) {
   // We ask MySQL for newest rows first because that is efficient with IDs.
   // Then we reverse below so the chat UI displays oldest-to-newest.
-  const [rows] = await db.execute(
+  const [rows] = await db.query(
     `
     SELECT id, role, content, token_count, created_at
     FROM conversations
@@ -47,7 +47,7 @@ export async function insertConversation({ role, content, tokenCount = 0 }) {
 
   // After insert, fetch the saved row back from MySQL.
   // This gives the frontend the real id and createdAt timestamp.
-  const [rows] = await db.execute(
+  const [rows] = await db.query(
     `
     SELECT id, role, content, token_count, created_at
     FROM conversations
